@@ -33,15 +33,10 @@ const isFileEmpty = (file) => {
 
 // Kontrolli, kas fail on tühi
 const emptyFile = isFileEmpty(DATA_FILE);
-
 // Käivitame andmete sisesamise serveri käivitumisel, kui meie fail on tühi
 emptyFile && fetchAndSaveProducts();
 
-// 2. MIDDLEWARE
-// app.use(express.static("public")); // Lubab juurdepääsu public kausta failidele
-// app.use(express.json());
-
-// 3. API ROUTES (Andmete jagamine frontendile)
+// 2. API ROUTES (Andmete jagamine frontendile)
 
 // Kõik tooted (või kategooria järgi)
 app.get("/api/products", (req, res) => {
@@ -50,9 +45,9 @@ app.get("/api/products", (req, res) => {
     const category = req.query.category;
     if (category) {
       const filtered = data.filter((p) => p.category === category);
-      return res.json(filtered);
+      return res.status(200).json(filtered);
     }
-    res.json(data);
+    res.status(200).json(data);
   } catch (error) {
     res.status(404).json({ message: "Andmete lugemine ebaõnnestus" });
   }
@@ -60,11 +55,16 @@ app.get("/api/products", (req, res) => {
 
 // Üksik toode ID järgi
 app.get("/api/products/:id", (req, res) => {
-  const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
-  const product = data.find((p) => p.id === parseInt(req.params.id));
+  try {
+    const data = JSON.parse(fs.readFileSync(DATA_FILE, "utf8"));
+    const product = data.find((p) => p.id === parseInt(req.params.id));
 
-  if (!product) return res.status(404).send("Toodet ei leitud");
-  res.json(product);
+    if (!product) return res.status(404).send("Toodet ei leitud"); //see on valikuline
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(404).json({ message: "Andmete lugemine ebaõnnestus" });
+  }
 });
 
 // Endpoint to get categories
@@ -169,7 +169,11 @@ app.delete("/api/favorites/:userID/:productId", async (req, res) => {
   }
 });
 
+// 2. MIDDLEWARE
+// app.use(express.static("public")); // Lubab juurdepääsu public kausta failidele
+
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
 
 // 4. SPA ROUTING (Oluline!)
 // See peab olema viimane route. Kui keegi läheb /cart või /product/1,

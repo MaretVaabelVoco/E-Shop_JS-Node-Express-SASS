@@ -6,7 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server",
-    "dev": "node --watch server"
+    "dev": "node --watch server",
+    "sass-watch": "sass public/css/style.scss public/css/style.min.css --watch"
   },
   "author": "Maret Vaabel",
   "license": "ISC",
