@@ -38,30 +38,3 @@ const constructUrl = (view, param) => {
       return "/";
   }
 };
-
-// // --- OLULINE: LISA KA SEE OSA ---
-
-// export const handleRouting = async () => {
-//   const path = await window.location.pathname;
-//   console.log("path", path);
-
-//   if (path === "/" || path === "") {
-//     navigate("allProducts", "all", false);
-//   } else if (path.startsWith("/category/")) {
-//     const category = path.split("/")[2];
-//     navigate("allProducts", category, false);
-//   } else if (path.startsWith("/product/")) {
-//     const id = path.split("/")[2];
-//     navigate("productDetail", id, false);
-//   } else if (path === "/cart") {
-//     navigate("cart", null, false);
-//   } else if (path === "/favorites") {
-//     navigate("favorites", null, false);
-//   }
-// };
-
-// Kuula brauseri Back/Forward nuppe
-//window.addEventListener("popstate", () => handleRouting());
-
-// Käivita kohe, kui leht laetakse
-//window.addEventListener("DOMContentLoaded", () => handleRouting());
