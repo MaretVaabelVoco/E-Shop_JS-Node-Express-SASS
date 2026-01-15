@@ -37,6 +37,7 @@ const initApp = async () => {
   //   displayAllProductsView(categories[0]);
 
   // displayAllProductsView();
+
   const path = window.location.pathname;
 
   // 2. Otsusta, millist vaadet näidata
